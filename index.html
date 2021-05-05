@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="number" maxlength="9" id="cep">
+    <div>
+        A cidade é:
+        <div id="localidade"></div>
+    </div>
+
+    </div>
+    <script>
+        const option = {
+            method: "GET",
+            mode: "cors",
+            cache: "default"
+        }
+        const cep = document.getElementById("cep");
+        cep.addEventListener("blur", (e) => {
+            let search = cep.value.replace("-", "")
+            fetch(`https://viacep.com.br/ws/${search}/json/`, option).then((response) => {
+                response.json().then(data => document.getElementById('localidade').innerHTML = data.localidade)
+            }).catch(e => console.log("Não foi pucivel buscar o cep", e))
+
+        })
+    </script>
+</body>
+
+</html>
