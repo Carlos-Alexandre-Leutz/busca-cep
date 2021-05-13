@@ -6,31 +6,81 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="/fetch.js"></script>
 </head>
 
-<body>
-    <input type="number" maxlength="9" id="cep">
-    <div>
-        A cidade é:
-        <div id="localidade"></div>
-    </div>
+<form action="">
+    <label for="cep">Cep</label><br>
+    <input id="cep" type="text" maxlength="11"><br>
+    <label for="bairro">Bairro</label><br>
+    <input type="text" id="bairro"><br>
+    <label for="ddd">ddd</label><br>
+    <input type="text" id="ddd"><br>
+    <label for="ibge">Ibge</label><br>
+    <input type="text" id="ibge"><br>
+    <label for="localidade">Localidade</label><br>
+    <input type="text" id="localidade"><br>
+    <label for="logradouro">Logradouro</label><br>
+    <input type="text" id="logradouro"><br>
+    <label for="uf">Uf</label><br>
+    <input type="text" id="uf"><br>
+    <label for="siafi">Siafi</label><br>
+    <input type="text" id="siafi"><br>
 
-    </div>
-    <script>
-        const option = {
-            method: "GET",
-            mode: "cors",
-            cache: "default"
-        }
-        const cep = document.getElementById("cep");
-        cep.addEventListener("blur", (e) => {
-            let search = cep.value.replace("-", "")
-            fetch(`https://viacep.com.br/ws/${search}/json/`, option).then((response) => {
-                response.json().then(data => document.getElementById('localidade').innerHTML = data.localidade)
-            }).catch(e => console.log("Não foi pucivel buscar o cep", e))
+    <input onclick="enviar()" type="button" value="Enviar">
+</form>
+<script>
+    const options = {
+        method: "GET",
+        mode: "cors",
+        caches: "default"
+    }
 
+    const cep = document.getElementById("cep")
+    cep.addEventListener("blur", (e) => {
+        let Cep = document.getElementById("cep").value;
+        console.log(Cep)
+        let search = cep.value.replace("-", "")
+        fetch(`https://viacep.com.br/ws/${search}/json/`, options).then((response) => {
+            response.json().then(data => {
+                console.log(data)
+                document.getElementById("bairro").value = data.bairro;
+                document.getElementById("ddd").value = data.ddd;
+                document.getElementById("ibge").value = data.ibge;
+                document.getElementById("localidade").value = data.localidade;
+                document.getElementById("logradouro").value = data.logradouro;
+                document.getElementById("uf").value = data.uf;
+                document.getElementById("siafi").value = data.siafi;
+
+            })
         })
-    </script>
+    })
+
+    function enviar() {
+        let bairro = document.getElementById("bairro").value;
+        let ddd = document.getElementById("ddd").value;
+        let ibge = document.getElementById("ibge").value;
+        let localidade = document.getElementById("localidade").value;
+        let logradouro = document.getElementById("logradouro").value;
+        let uf = document.getElementById("uf").value;
+        let siafi = document.getElementById("siafi").value;
+        let json = {
+            "bairro": bairro,
+            "ddd": ddd,
+            "ibge": ibge,
+            "localidade": localidade,
+            "logradouro": logradouro,
+            "uf": uf,
+            "siafi": siafi
+        }
+        console.log(json)
+    }
+
+    //document.getElementById('cep').value = '123'
+</script>
+
+<body>
+
 </body>
 
 </html>
